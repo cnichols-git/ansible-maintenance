@@ -1,0 +1,32 @@
+---
+
+# to gather facts on what ansible calls the ansible_distribution run:
+# ansible 10.0.0.43 -m gather_facts | grep ansible_distribution
+
+
+- hosts: lab
+  become: true
+  
+  tasks:
+
+  - name: Update Ubuntu Systems and reboot
+    ansible.builtin.apt:
+      update_cache: yes
+    when: ansible_distribution == 'Ubuntu'
+
+  # Rocky OS Updates and rebooting the system 
+
+  - name: Update Rocky and restart
+    dnf: 
+      update_cache:  yes
+    when: ansible_distribution == 'Rocky'
+
+  - name: Update Rocky and NO RESTART
+    dnf:
+      name: "*"
+      state: latest
+    when: ansible_distribution == 'Rocky'
+
+  - name: Reboot machine and send a message
+    ansible.builtin.reboot:
+      msg: "Rebooting machine in 5 seconds"
