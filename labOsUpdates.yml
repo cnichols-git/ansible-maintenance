@@ -9,14 +9,7 @@
   
   tasks:
 
-  - name: Update Ubuntu Systems and reboot
-    ansible.builtin.apt:
-      update_cache: yes
-    when: ansible_distribution == 'Ubuntu'
-
-  # Rocky OS Updates and rebooting the system 
-
-  - name: Update Rocky and restart
+  - name: Update Rocky Linux
     dnf: 
       update_cache:  yes
     when: ansible_distribution == 'Rocky'
@@ -26,7 +19,3 @@
       name: "*"
       state: latest
     when: ansible_distribution == 'Rocky'
-
-  - name: Reboot machine and send a message
-    ansible.builtin.reboot:
-      msg: "Rebooting machine in 5 seconds"
